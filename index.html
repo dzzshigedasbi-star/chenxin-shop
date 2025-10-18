@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>晨欣情趣自动售货</title>
+<meta name="theme-color" content="#ff4081" />
+<style>
+  :root{
+    --pink:#ff4081;
+    --pink-light:#ff7bab;
+    --bg-dark:#121212;
+    --card:#1e1e1e;
+    --text:#f1f1f1;
+    --sub:#aaa;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+    background:var(--bg-dark);
+    color:var(--text);
+  }
+
+  /* 顶部栏 */
+  .appbar{
+    position:sticky;top:0;z-index:10;
+    background:#1a1a1a;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:14px 18px;
+    box-shadow:0 2px 10px rgba(255,64,129,.25);
+  }
+  .title{
+    font-weight:700;font-size:18px;color:var(--pink-light);
+    text-shadow:0 0 8px rgba(255,64,129,.6);
+  }
+  .cart-pill{
+    display:flex;align-items:center;gap:6px;
+    background:rgba(255,64,129,.1);
+    border:1px solid rgba(255,64,129,.4);
+    border-radius:999px;padding:6px 12px;
+    font-size:14px;color:var(--pink);
+  }
+  .badge{
+    min-width:18px;height:18px;border-radius:9px;background:var(--pink);
+    color:#fff;display:inline-flex;align-items:center;justify-content:center;
+    font-size:12px;padding:0 6px;
+  }
+
+  /* Banner */
+  .hero{
+    background:linear-gradient(145deg,#2a2a2a,#1a1a1a);
+    margin:14px 16px;border-radius:14px;padding:18px;
+    box-shadow:0 0 20px rgba(255,64,129,.2);
+  }
+  .hero h2{margin:0;color:var(--pink-light);font-size:20px}
+  .hero p{margin:6px 0 0;color:var(--sub)}
+
+  /* 商品网格 */
+  .grid{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:14px;margin:18px 16px 100px;
+  }
+  .card{
+    background:var(--card);border-radius:14px;padding:12px;
+    box-shadow:0 6px 18px rgba(255,64,129,.18);
+    display:flex;flex-direction:column;gap:8px;
+    transition:all .25s ease;
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:0 8px 25px rgba(255,64,129,.35);}
+  .thumb{
+    width:100%;aspect-ratio:1/1;border-radius:10px;object-fit:cover;
+  }
+  .name{font-size:15px;font-weight:600;}
+  .meta{display:flex;align-items:center;justify-content:space-between;}
+  .price{color:var(--pink);font-weight:700;font-size:16px;}
+  .btn{
+    border:none;border-radius:8px;padding:8px 12px;background:var(--pink);
+    color:#fff;font-weight:600;font-size:14px;
+    box-shadow:0 6px 14px rgba(255,64,129,.25);
+  }
+
+  /* 底部栏 */
+  .dock{
+    position:fixed;left:0;right:0;bottom:0;z-index:20;
+    background:#1a1a1a;padding:12px 16px;
+    display:flex;gap:10px;border-top:1px solid rgba(255,64,129,.3);
+  }
+  .dock .ghost{
+    flex:1;background:rgba(255,64,129,.1);
+    border:1px solid rgba(255,64,129,.4);
+    color:var(--pink);
+  }
+  .dock .solid{
+    flex:2;background:var(--pink);color:#fff;
+  }
+
+  /* 抽屉 */
+  .sheet{
+    position:fixed;left:0;right:0;bottom:-100%;z-index:30;
+    background:#1c1c1c;border-top-left-radius:18px;border-top-right-radius:18px;
+    box-shadow:0 -10px 30px rgba(0,0,0,.5);
+    transition:bottom .25s ease;
+  }
+  .sheet.show{bottom:0}
+  .sheet .handle{
+    width:50px;height:5px;border-radius:3px;background:#333;margin:10px auto;
+  }
+  .sheet .wrap{padding:10px 16px 20px;max-height:70vh;overflow:auto}
+
+  .cart-row{
+    display:grid;grid-template-columns:44px 1fr auto;
+    gap:10px;align-items:center;padding:10px 0;border-bottom:1px dashed rgba(255,64,129,.3);
+  }
+  .cart-thumb{width:44px;height:44px;border-radius:8px;object-fit:cover;}
+  .qty{display:inline-flex;align-items:center;border:1px solid rgba(255,64,129,.4);
+    border-radius:999px;overflow:hidden;}
+  .qty button{background:transparent;border:none;width:28px;height:28px;font-size:18px;color:var(--pink);}
+  .qty span{width:32px;text-align:center;}
+  .del{border:none;background:transparent;color:#999;font-size:18px}
+
+  .total{display:flex;align-items:center;justify-content:space-between;margin-top:10px;font-weight:700;}
+
+  .pay-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+  .pay-btn{border:1px solid rgba(255,64,129,.4);background:#2a2a2a;border-radius:12px;padding:12px;text-align:center;color:#fff;}
+  .pay-btn.active{border-color:var(--pink);box-shadow:0 0 0 3px rgba(255,64,129,.25);}
+  .code{margin-top:12px;display:flex;flex-direction:column;align-items:center;gap:6px;}
+  .code img{width:180px;height:180px;border-radius:12px;object-fit:cover;}
+  .muted{color:#999;font-size:13px;}
+
+  .toast{
+    position:fixed;left:50%;bottom:100px;transform:translateX(-50%) translateY(20px);
+    background:rgba(255,64,129,.85);color:#fff;padding:10px 16px;border-radius:999px;
+    font-size:13px;opacity:0;transition:all .25s ease;z-index:40;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+
+<div class="appbar">
+  <div class="title">晨欣情趣自动售货</div>
+  <div class="cart-pill" onclick="openCart()">🛒 购物车 <span class="badge" id="cartCount">0</span></div>
+</div>
+
+<section class="hero">
+  <h2>夜色撩人 · 即刻私享</h2>
+  <p>匿名下单 · 极速取货 · 支持微信/支付宝支付</p>
+</section>
+
+<section class="grid" id="grid"></section>
+
+<div class="dock">
+  <button class="btn ghost" onclick="clearCart()">清空</button>
+  <button class="btn solid" onclick="openCart()">去结算</button>
+</div>
+
+<div class="sheet" id="sheetCart">
+  <div class="handle"></div>
+  <div class="wrap" id="cartWrap"></div>
+</div>
+
+<div class="sheet" id="sheetPay">
+  <div class="handle"></div>
+  <div class="wrap" id="payWrap"></div>
+</div>
+
+<div class="toast" id="toast">已加入购物车</div>
+<script>
+// ===== 商品数据 =====
+const PRODUCTS = [
+  {id:1, name:"杜蕾斯 Air 超薄避孕套", price:29, img:"https://picsum.photos/400/400?random=11"},
+  {id:2, name:"冈本 003 极薄系列", price:35, img:"https://picsum.photos/400/400?random=12"},
+  {id:3, name:"情趣润滑油（温感型）", price:38, img:"https://picsum.photos/400/400?random=13"},
+  {id:4, name:"香氛按摩油", price:45, img:"https://picsum.photos/400/400?random=14"},
+  {id:5, name:"情趣内衣套装", price:19.9, img:"https://picsum.photos/400/400?random=15"},
+  {id:6, name:"无线跳蛋", price:48, img:"https://picsum.photos/400/400?random=16"},
+  {id:7, name:"震动棒（智能互动款）", price:188, img:"https://picsum.photos/400/400?random=17"},
+  {id:8, name:"男性延时喷剂", price:19.9, img:"https://picsum.photos/400/400?random=18"},
+  {id:9, name:"润滑套装礼盒", price:99, img:"https://picsum.photos/400/400?random=19"},
+  {id:10, name:"成人玩具盲盒", price:59, img:"https://picsum.photos/400/400?random=20"},
+  {id:11, name:"双人情侣套装礼盒", price:188, img:"https://picsum.photos/400/400?random=21"},
+  {id:12, name:"女用震动按摩棒（高端款）", price:299, img:"https://picsum.photos/400/400?random=22"},
+];
+
+// ===== 支付二维码（你的真实链接） =====
+const WECHAT_QR  = "https://i.postimg.cc/xCzHDhD1/20251017181046-14-2.jpg";
+const ALIPAY_QR  = "https://i.postimg.cc/9X9PvRCL/20251017181045-13-2.jpg";
+
+// ===== 动态渲染商品 =====
+const grid = document.getElementById('grid');
+PRODUCTS.forEach(p=>{
+  const el = document.createElement('div');
+  el.className = 'card';
+  el.innerHTML = `
+    <img class="thumb" src="${p.img}" alt="${p.name}">
+    <div class="name">${p.name}</div>
+    <div class="meta">
+      <div class="price">¥${p.price}</div>
+      <button class="btn" onclick="add(${p.id})">加入</button>
+    </div>`;
+  grid.appendChild(el);
+});
+
+// ===== 购物车逻辑 =====
+let cart = [];
+const toast = (txt="已加入购物车")=>{
+  const t=document.getElementById('toast');
+  t.textContent=txt;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),1200);
+};
+function add(id){
+  const p = PRODUCTS.find(x=>x.id===id);
+  const i = cart.find(x=>x.id===id);
+  if(i) i.qty++; else cart.push({...p, qty:1});
+  updateBadge(); toast(`${p.name} 已加入`);
+}
+function updateBadge(){
+  const c = cart.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('cartCount').textContent = c;
+}
+function clearCart(){
+  cart = []; updateBadge(); toast("购物车已清空");
+}
+
+const sheetCart = document.getElementById('sheetCart');
+function openCart(){ renderCart(); sheetCart.classList.add('show'); }
+function closeCart(){ sheetCart.classList.remove('show'); }
+function changeQty(index, delta){
+  cart[index].qty += delta; if(cart[index].qty<=0) cart.splice(index,1);
+  renderCart(); updateBadge();
+}
+function removeItem(index){ cart.splice(index,1); renderCart(); updateBadge(); }
+function renderCart(){
+  const wrap = document.getElementById('cartWrap');
+  if(cart.length===0){ wrap.innerHTML=`<h3>购物车为空</h3>`; return; }
+  let total=0;
+  const rows=cart.map((c,i)=>{ total+=c.price*c.qty;
+    return `
+      <div class="cart-row">
+        <img class="cart-thumb" src="${c.img}">
+        <div><div>${c.name}</div><div class="price">¥${c.price}</div></div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <button class="del" onclick="removeItem(${i})">✕</button>
+          <div class="qty">
+            <button onclick="changeQty(${i},-1)">−</button>
+            <span>${c.qty}</span>
+            <button onclick="changeQty(${i},1)">＋</button>
+          </div>
+        </div>
+      </div>`; }).join('');
+  wrap.innerHTML = `
+    <h3>购物车</h3>${rows}
+    <div class="total"><div>合计</div><div class="price">¥${total}</div></div>
+    <div style="display:flex;gap:10px;margin-top:12px">
+      <button class="btn ghost" onclick="clearCart()">清空</button>
+      <button class="btn" style="flex:2" onclick="goPay()">去结算</button>
+    </div>`;
+}
+
+// ===== 支付逻辑 =====
+const sheetPay = document.getElementById('sheetPay');
+let payMethod = "wechat";
+function choose(m){ payMethod=m; renderPay(); }
+function goPay(){ sheetCart.classList.remove('show'); renderPay(); sheetPay.classList.add('show'); }
+function closePay(){ sheetPay.classList.remove('show'); }
+function renderPay(){
+  const wrap=document.getElementById('payWrap');
+  const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  wrap.innerHTML=`
+    <h3>选择支付方式</h3>
+    <div class="muted">应付总额 <b style="color:var(--pink)">¥${total}</b></div>
+    <div class="pay-grid">
+      <button class="pay-btn ${payMethod==='wechat'?'active':''}" onclick="choose('wechat')">微信支付</button>
+      <button class="pay-btn ${payMethod==='alipay'?'active':''}" onclick="choose('alipay')">支付宝支付</button>
+    </div>
+    <div class="code">
+      <img src="${payMethod==='wechat'?WECHAT_QR:ALIPAY_QR}" alt="收款二维码">
+      <div class="muted">请使用${payMethod==='wechat'?'微信':'支付宝'}扫码完成支付</div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:10px">
+      <button class="btn ghost" onclick="closePay()">返回</button>
+      <button class="btn" style="flex:2" onclick="finish()">已完成支付</button>
+    </div>`;
+}
+function finish(){ toast("感谢支付！我们尽快为您处理"); closePay(); }
+
+// ===== 生成商城二维码 =====
+</script>
+
+<!-- 底部二维码展示 -->
+<div style="text-align:center;margin:60px 0 100px">
+  <p style="color:#999;font-size:14px;">扫码进入晨欣情趣自动售货商城</p>
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://chenxin-shop.vercel.app/" width="180" style="border-radius:12px;box-shadow:0 0 20px rgba(255,64,129,.4);">
+</div>
+
+</body>
+</html>
