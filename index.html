@@ -22,7 +22,6 @@
     color:var(--text);
   }
 
-  /* 顶部栏 */
   .appbar{
     position:sticky;top:0;z-index:10;
     background:#1a1a1a;
@@ -41,13 +40,10 @@
     border-radius:999px;padding:6px 12px;
     font-size:14px;color:var(--pink);
   }
-  .badge{
-    min-width:18px;height:18px;border-radius:9px;background:var(--pink);
+  .badge{min-width:18px;height:18px;border-radius:9px;background:var(--pink);
     color:#fff;display:inline-flex;align-items:center;justify-content:center;
-    font-size:12px;padding:0 6px;
-  }
+    font-size:12px;padding:0 6px;}
 
-  /* Banner */
   .hero{
     background:linear-gradient(145deg,#2a2a2a,#1a1a1a);
     margin:14px 16px;border-radius:14px;padding:18px;
@@ -56,7 +52,6 @@
   .hero h2{margin:0;color:var(--pink-light);font-size:20px}
   .hero p{margin:6px 0 0;color:var(--sub)}
 
-  /* 商品网格 */
   .grid{
     display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
     gap:14px;margin:18px 16px 100px;
@@ -68,9 +63,7 @@
     transition:all .25s ease;
   }
   .card:hover{transform:translateY(-4px);box-shadow:0 8px 25px rgba(255,64,129,.35);}
-  .thumb{
-    width:100%;aspect-ratio:1/1;border-radius:10px;object-fit:cover;
-  }
+  .thumb{width:100%;aspect-ratio:1/1;border-radius:10px;object-fit:cover;}
   .name{font-size:15px;font-weight:600;}
   .meta{display:flex;align-items:center;justify-content:space-between;}
   .price{color:var(--pink);font-weight:700;font-size:16px;}
@@ -80,7 +73,6 @@
     box-shadow:0 6px 14px rgba(255,64,129,.25);
   }
 
-  /* 底部栏 */
   .dock{
     position:fixed;left:0;right:0;bottom:0;z-index:20;
     background:#1a1a1a;padding:12px 16px;
@@ -91,11 +83,8 @@
     border:1px solid rgba(255,64,129,.4);
     color:var(--pink);
   }
-  .dock .solid{
-    flex:2;background:var(--pink);color:#fff;
-  }
+  .dock .solid{flex:2;background:var(--pink);color:#fff;}
 
-  /* 抽屉 */
   .sheet{
     position:fixed;left:0;right:0;bottom:-100%;z-index:30;
     background:#1c1c1c;border-top-left-radius:18px;border-top-right-radius:18px;
@@ -103,15 +92,11 @@
     transition:bottom .25s ease;
   }
   .sheet.show{bottom:0}
-  .sheet .handle{
-    width:50px;height:5px;border-radius:3px;background:#333;margin:10px auto;
-  }
+  .sheet .handle{width:50px;height:5px;border-radius:3px;background:#333;margin:10px auto;}
   .sheet .wrap{padding:10px 16px 20px;max-height:70vh;overflow:auto}
 
-  .cart-row{
-    display:grid;grid-template-columns:44px 1fr auto;
-    gap:10px;align-items:center;padding:10px 0;border-bottom:1px dashed rgba(255,64,129,.3);
-  }
+  .cart-row{display:grid;grid-template-columns:44px 1fr auto;
+    gap:10px;align-items:center;padding:10px 0;border-bottom:1px dashed rgba(255,64,129,.3);}
   .cart-thumb{width:44px;height:44px;border-radius:8px;object-fit:cover;}
   .qty{display:inline-flex;align-items:center;border:1px solid rgba(255,64,129,.4);
     border-radius:999px;overflow:hidden;}
@@ -166,33 +151,29 @@
 </div>
 
 <div class="toast" id="toast">已加入购物车</div>
+
 <script>
-// ===== 商品数据 =====
 const PRODUCTS = [
-  {id:1, name:"杜蕾斯 Air 超薄避孕套", price:29, img:"https://picsum.photos/400/400?random=11"},
-  {id:2, name:"冈本 003 极薄系列", price:35, img:"https://picsum.photos/400/400?random=12"},
-  {id:3, name:"情趣润滑油（温感型）", price:38, img:"https://picsum.photos/400/400?random=13"},
-  {id:4, name:"香氛按摩油", price:45, img:"https://picsum.photos/400/400?random=14"},
-  {id:5, name:"情趣内衣套装", price:19.9, img:"https://picsum.photos/400/400?random=15"},
-  {id:6, name:"无线跳蛋", price:48, img:"https://picsum.photos/400/400?random=16"},
-  {id:7, name:"震动棒（智能互动款）", price:188, img:"https://picsum.photos/400/400?random=17"},
-  {id:8, name:"男性延时喷剂", price:19.9, img:"https://picsum.photos/400/400?random=18"},
-  {id:9, name:"润滑套装礼盒", price:99, img:"https://picsum.photos/400/400?random=19"},
-  {id:10, name:"成人玩具盲盒", price:59, img:"https://picsum.photos/400/400?random=20"},
-  {id:11, name:"双人情侣套装礼盒", price:188, img:"https://picsum.photos/400/400?random=21"},
-  {id:12, name:"女用震动按摩棒（高端款）", price:299, img:"https://picsum.photos/400/400?random=22"},
+  {id:1, name:"杜蕾斯 Air 礼盒装", price:29, img:"https://i.postimg.cc/fTsKm6r2/f05e13db3e558fba89ac0c7984ab4f80.jpg"},
+  {id:2, name:"冈本 003 奢华系列", price:35, img:"https://i.postimg.cc/3NTgjvnB/15ace1f0af2ea0b6afd41730f8c37a17.jpg"},
+  {id:3, name:"情趣润滑油 温感型", price:48, img:"https://i.postimg.cc/bwJ1R8HR/a9f87d22a51e18966d94b56127473053.jpg"},
+  {id:4, name:"香氛按摩油", price:55, img:"https://i.postimg.cc/KzXLFTXq/074dbfd6c9e7c91dff6e1e63e975bf37.jpg"},
+  {id:5, name:"情趣内衣套装", price:79, img:"https://i.postimg.cc/DfPskmxM/0ccdaeb3e347b84d8e063a17cd565b03.jpg"},
+  {id:6, name:"无线跳蛋", price:68, img:"https://i.postimg.cc/zG6HShfB/d3c0043b379ca2d6b3204dae11961fa0.jpg"},
+  {id:7, name:"智能震动棒 高端款", price:288, img:"https://i.postimg.cc/0Qd6sH0b/b105677d4fff37995f4bb35a6cfc49a5.jpg"},
+  {id:8, name:"男性延时喷剂", price:78, img:"https://i.postimg.cc/kX520s6M/b69529996da94c770241110998d0ee0a.jpg"},
+  {id:9, name:"润滑套装礼盒", price:99, img:"https://i.postimg.cc/0QxQc01x/bc5eaddae025ce0bc9f2d162796ebe75.jpg"},
+  {id:10, name:"成人玩具盲盒", price:59, img:"https://i.postimg.cc/XqYv0NvQ/9e573c1b69758b1ac27378db634cc172.jpg"},
+  {id:11, name:"双人情侣套装礼盒", price:188, img:"https://i.postimg.cc/Bb7nZWL2/2127f69ed62d4a61cdd44a833a9ebcaa.jpg"},
+  {id:12, name:"女用震动按摩棒 奢华款", price:299, img:"https://i.postimg.cc/TYhP7PFp/9e61bc72aad7076c6da597e17661ee18.jpg"}
 ];
-
-// ===== 支付二维码（你的真实链接） =====
-const WECHAT_QR  = "https://i.postimg.cc/xCzHDhD1/20251017181046-14-2.jpg";
-const ALIPAY_QR  = "https://i.postimg.cc/9X9PvRCL/20251017181045-13-2.jpg";
-
-// ===== 动态渲染商品 =====
-const grid = document.getElementById('grid');
+const WECHAT_QR="https://i.postimg.cc/3NjJpycp/20251018171859-1-4.jpg";
+const ALIPAY_QR="https://i.postimg.cc/9X9PvRCL/20251017181045-13-2.jpg";
+const grid=document.getElementById('grid');
 PRODUCTS.forEach(p=>{
-  const el = document.createElement('div');
-  el.className = 'card';
-  el.innerHTML = `
+  const el=document.createElement('div');
+  el.className='card';
+  el.innerHTML=`
     <img class="thumb" src="${p.img}" alt="${p.name}">
     <div class="name">${p.name}</div>
     <div class="meta">
@@ -202,56 +183,44 @@ PRODUCTS.forEach(p=>{
   grid.appendChild(el);
 });
 
-// ===== 购物车逻辑 =====
-let cart = [];
-const toast = (txt="已加入购物车")=>{
+let cart=[];
+const toast=(txt="已加入购物车")=>{
   const t=document.getElementById('toast');
-  t.textContent=txt;
-  t.classList.add('show');
+  t.textContent=txt;t.classList.add('show');
   setTimeout(()=>t.classList.remove('show'),1200);
 };
-function add(id){
-  const p = PRODUCTS.find(x=>x.id===id);
-  const i = cart.find(x=>x.id===id);
-  if(i) i.qty++; else cart.push({...p, qty:1});
-  updateBadge(); toast(`${p.name} 已加入`);
+function add(id){const p=PRODUCTS.find(x=>x.id===id);
+  const i=cart.find(x=>x.id===id);
+  if(i)i.qty++;else cart.push({...p,qty:1});
+  updateBadge();toast(`${p.name} 已加入`);
 }
-function updateBadge(){
-  const c = cart.reduce((s,i)=>s+i.qty,0);
-  document.getElementById('cartCount').textContent = c;
-}
-function clearCart(){
-  cart = []; updateBadge(); toast("购物车已清空");
-}
-
-const sheetCart = document.getElementById('sheetCart');
-function openCart(){ renderCart(); sheetCart.classList.add('show'); }
-function closeCart(){ sheetCart.classList.remove('show'); }
-function changeQty(index, delta){
-  cart[index].qty += delta; if(cart[index].qty<=0) cart.splice(index,1);
-  renderCart(); updateBadge();
-}
-function removeItem(index){ cart.splice(index,1); renderCart(); updateBadge(); }
+function updateBadge(){const c=cart.reduce((s,i)=>s+i.qty,0);
+  document.getElementById('cartCount').textContent=c;}
+function clearCart(){cart=[];updateBadge();toast("购物车已清空");}
+const sheetCart=document.getElementById('sheetCart');
+function openCart(){renderCart();sheetCart.classList.add('show');}
+function closeCart(){sheetCart.classList.remove('show');}
+function changeQty(i,d){cart[i].qty+=d;if(cart[i].qty<=0)cart.splice(i,1);
+  renderCart();updateBadge();}
+function removeItem(i){cart.splice(i,1);renderCart();updateBadge();}
 function renderCart(){
-  const wrap = document.getElementById('cartWrap');
-  if(cart.length===0){ wrap.innerHTML=`<h3>购物车为空</h3>`; return; }
+  const w=document.getElementById('cartWrap');
+  if(cart.length===0){w.innerHTML=`<h3>购物车为空</h3>`;return;}
   let total=0;
-  const rows=cart.map((c,i)=>{ total+=c.price*c.qty;
-    return `
-      <div class="cart-row">
-        <img class="cart-thumb" src="${c.img}">
-        <div><div>${c.name}</div><div class="price">¥${c.price}</div></div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <button class="del" onclick="removeItem(${i})">✕</button>
-          <div class="qty">
-            <button onclick="changeQty(${i},-1)">−</button>
-            <span>${c.qty}</span>
-            <button onclick="changeQty(${i},1)">＋</button>
-          </div>
+  const rows=cart.map((c,i)=>{total+=c.price*c.qty;
+    return `<div class="cart-row">
+      <img class="cart-thumb" src="${c.img}">
+      <div><div>${c.name}</div><div class="price">¥${c.price}</div></div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <button class="del" onclick="removeItem(${i})">✕</button>
+        <div class="qty">
+          <button onclick="changeQty(${i},-1)">−</button>
+          <span>${c.qty}</span>
+          <button onclick="changeQty(${i},1)">＋</button>
         </div>
-      </div>`; }).join('');
-  wrap.innerHTML = `
-    <h3>购物车</h3>${rows}
+      </div>
+    </div>`;}).join('');
+  w.innerHTML=`<h3>购物车</h3>${rows}
     <div class="total"><div>合计</div><div class="price">¥${total}</div></div>
     <div style="display:flex;gap:10px;margin-top:12px">
       <button class="btn ghost" onclick="clearCart()">清空</button>
@@ -259,41 +228,37 @@ function renderCart(){
     </div>`;
 }
 
-// ===== 支付逻辑 =====
-const sheetPay = document.getElementById('sheetPay');
-let payMethod = "wechat";
-function choose(m){ payMethod=m; renderPay(); }
-function goPay(){ sheetCart.classList.remove('show'); renderPay(); sheetPay.classList.add('show'); }
-function closePay(){ sheetPay.classList.remove('show'); }
+const sheetPay=document.getElementById('sheetPay');let payMethod="wechat";
+function choose(m){payMethod=m;renderPay();}
+function goPay(){sheetCart.classList.remove('show');renderPay();sheetPay.classList.add('show');}
+function closePay(){sheetPay.classList.remove('show');}
 function renderPay(){
-  const wrap=document.getElementById('payWrap');
+  const w=document.getElementById('payWrap');
   const total=cart.reduce((s,i)=>s+i.price*i.qty,0);
-  wrap.innerHTML=`
-    <h3>选择支付方式</h3>
-    <div class="muted">应付总额 <b style="color:var(--pink)">¥${total}</b></div>
-    <div class="pay-grid">
-      <button class="pay-btn ${payMethod==='wechat'?'active':''}" onclick="choose('wechat')">微信支付</button>
-      <button class="pay-btn ${payMethod==='alipay'?'active':''}" onclick="choose('alipay')">支付宝支付</button>
-    </div>
-    <div class="code">
-      <img src="${payMethod==='wechat'?WECHAT_QR:ALIPAY_QR}" alt="收款二维码">
-      <div class="muted">请使用${payMethod==='wechat'?'微信':'支付宝'}扫码完成支付</div>
-    </div>
-    <div style="display:flex;gap:10px;margin-top:10px">
-      <button class="btn ghost" onclick="closePay()">返回</button>
-      <button class="btn" style="flex:2" onclick="finish()">已完成支付</button>
-    </div>`;
+  w.innerHTML=`<h3>选择支付方式</h3>
+  <div class="muted">应付总额 <b style="color:var(--pink)">¥${total}</b></div>
+  <div class="pay-grid">
+    <button class="pay-btn ${payMethod==='wechat'?'active':''}" onclick="choose('wechat')">微信支付</button>
+    <button class="pay-btn ${payMethod==='alipay'?'active':''}" onclick="choose('alipay')">支付宝支付</button>
+  </div>
+  <div class="code">
+    <img src="${payMethod==='wechat'?WECHAT_QR:ALIPAY_QR}">
+    <div class="muted">请使用${payMethod==='wechat'?'微信':'支付宝'}扫码完成支付</div>
+  </div>
+  <div style="display:flex;gap:10px;margin-top:10px">
+    <button class="btn ghost" onclick="closePay()">返回</button>
+    <button class="btn" style="flex:2" onclick="finish()">已完成支付</button>
+  </div>`;
 }
-function finish(){ toast("感谢支付！我们尽快为您处理"); closePay(); }
-
-// ===== 生成商城二维码 =====
+function finish(){toast("感谢支付！我们尽快为您处理");closePay();}
 </script>
 
-<!-- 底部二维码展示 -->
 <div style="text-align:center;margin:60px 0 100px">
   <p style="color:#999;font-size:14px;">扫码进入晨欣情趣自动售货商城</p>
-  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://chenxin-shop.vercel.app/" width="180" style="border-radius:12px;box-shadow:0 0 20px rgba(255,64,129,.4);">
+  <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://chenxin-shop.vercel.app/"
+       width="180" style="border-radius:12px;box-shadow:0 0 20px rgba(255,64,129,.4);">
 </div>
 
 </body>
 </html>
+
